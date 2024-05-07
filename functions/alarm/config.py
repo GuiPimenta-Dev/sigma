@@ -1,5 +1,6 @@
 from infra.services import Services
 
+
 class AlarmConfig:
     def __init__(self, services: Services) -> None:
 
@@ -15,9 +16,9 @@ class AlarmConfig:
                 "ALARMS_TABLE_NAME": services.dynamo_db.alarms_table.table_name,
             },
         )
-        
+
         services.sns.create_trigger(services.sns.alarms_topic, function)
 
         services.secrets_manager.gmail_secret.grant_read(function)
-        
+
         services.dynamo_db.add_query_permission(services.dynamo_db.alarms_table, function)

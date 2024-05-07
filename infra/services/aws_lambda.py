@@ -52,6 +52,5 @@ class AWSLambda(IAWSLambda):
         )
 
         alarm.add_alarm_action(SnsAction(topic=self.alarms_topic))
-        
+
         return function
-        

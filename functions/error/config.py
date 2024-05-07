@@ -1,5 +1,6 @@
 from infra.services import Services
 
+
 class ErrorConfig:
     def __init__(self, services: Services) -> None:
 
@@ -13,7 +14,5 @@ class ErrorConfig:
         )
 
         services.api_gateway.create_endpoint("GET", "/error", function, public=True)
-        
-        services.dynamo_db.alarms_table.grant_write_data(function)
 
-            
+        services.dynamo_db.alarms_table.grant_write_data(function)

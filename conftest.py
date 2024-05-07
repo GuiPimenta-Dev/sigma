@@ -4,6 +4,7 @@ import boto3
 import moto
 import pytest
 
+
 @pytest.fixture
 def env():
     os.environ["POOL_TABLE_NAME"] = "MOCK"

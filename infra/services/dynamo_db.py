@@ -10,7 +10,7 @@ class DynamoDB:
         )
 
         self.alarms_table = dynamo_db.Table.from_table_arn(
-            scope, "AlarmsTable", "arn:aws:dynamodb:us-east-2:211125768252:table/Alarms"
+            scope, "AlarmsTable", "arn:aws:dynamodb:us-east-2:211125768252:table/ALARMS"
         )
 
     @staticmethod

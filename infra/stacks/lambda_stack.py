@@ -4,7 +4,6 @@ from aws_cdk import Stack
 from constructs import Construct
 from lambda_forge import release
 
-from docs.config import DocsConfig
 from functions.redirect.config import RedirectConfig
 from functions.pool.create.config import CreateConfig
 from functions.pool.list.config import ListConfig
@@ -18,9 +17,6 @@ class LambdaStack(Stack):
         super().__init__(scope, f"{context.stage}-{context.name}-Lambda-Stack", **kwargs)
 
         self.services = Services(self, context)
-
-        # Docs
-        DocsConfig(self.services)
 
         # Redirect
         RedirectConfig(self.services)

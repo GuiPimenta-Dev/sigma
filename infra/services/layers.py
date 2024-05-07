@@ -11,3 +11,11 @@ class Layers:
         #     layer_version_arn="",
         # )
         ...
+
+        self.sm_utils_layer = _lambda.LayerVersion(
+            scope,
+            id='SmUtilsLayer',
+            code=_lambda.Code.from_asset(Path.layer('layers/sm_utils')),
+            compatible_runtimes=[_lambda.Runtime.PYTHON_3_9],
+            description='',
+         )

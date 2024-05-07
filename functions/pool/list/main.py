@@ -23,4 +23,4 @@ def lambda_handler(event, context):
 
     pools = table.scan()["Items"]
 
-    return {"statusCode": 200, "body": json.dumps(pools)}
+    return {"statusCode": 200, "body": json.dumps(pools, default=str)}

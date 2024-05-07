@@ -8,6 +8,9 @@ class RedirectConfig:
             name="Redirect",
             path="./functions/redirect",
             description="A function to redirect based on user pool id",
+            environment={
+                "POOL_TABLE_NAME": services.dynamo_db.pool_table.table_name,
+            },
         )
 
         services.api_gateway.create_endpoint("GET", "/redirect/{pool_id}", function, public=True)

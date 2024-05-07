@@ -81,18 +81,11 @@ class APIGateway(IAPIGateway):
             resource = resource.get_resource(subresource) or resource.add_resource(subresource)
         return resource
 
-    def create_docs(
-        self,
-        endpoint,
-        artifact,
-        authorizer=None,
-        public=False,
-        stages=None
-    ):
+    def create_docs(self, endpoint, artifact, authorizer=None, public=False, stages=None):
 
         if stages and self.context.stage not in stages:
             return
-        
+
         s3_integration_role = iam.Role(
             self.scope,
             f"{endpoint.replace('/','').title()}-API-Gateway-S3",

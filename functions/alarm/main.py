@@ -9,7 +9,7 @@ import sm_utils
 
 
 def lambda_handler(event, context):
-    
+
     # Fetch the SMTP details from the environment variables
     SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.gmail.com")
     SMTP_PORT = os.environ.get("SMTP_PORT", "465")
@@ -36,7 +36,7 @@ def lambda_handler(event, context):
     html_path = os.path.join(current_directory, "template.html")
 
     # Read the HTML content
-    function_name = json.loads(event['Records'][0]['Sns']["Message"])["Trigger"]["Dimensions"][0]["value"]
+    function_name = json.loads(event["Records"][0]["Sns"]["Message"])["Trigger"]["Dimensions"][0]["value"]
     html = open(html_path).read().replace("{{ lambdaFunction }}", function_name)
     msg.attach(MIMEText(html, "html"))
 
@@ -53,5 +53,3 @@ def lambda_handler(event, context):
         with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
             server.login(SMTP_USER, SMTP_PASS)
             server.sendmail(SMTP_USER, receiver["PK"], msg.as_string())
-            
-            

@@ -9,13 +9,14 @@ import sm_utils
 
 
 def lambda_handler(event, context):
+    print(event)
 
     # Fetch the SMTP details from the environment variables
-    SMTP_HOST = os.environ["SMTP_HOST"]
-    SMTP_PORT = os.environ["SMTP_PORT"]
+    SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT = os.environ.get("SMTP_PORT", "465")
 
     # Get the secret name from env variable
-    SECRET_NAME = os.environ["SECRET_NAME"]
+    SECRET_NAME = os.environ.get("SECRET_NAME", "mailer")
 
     # Get the secret from sm_utils layer
     secret = sm_utils.get_secret(SECRET_NAME)
@@ -29,7 +30,6 @@ def lambda_handler(event, context):
 
     # Set the 'From' field, including both the name and the email:
     msg["From"] = f"{sender_name} <{SMTP_USER}>"
-    msg["To"] = receiver
     msg["Subject"] = "Alarm Notification"
 
     # Join the current directory with the filename to get the full path of the HTML file
@@ -41,15 +41,18 @@ def lambda_handler(event, context):
     msg.attach(MIMEText(html, "html"))
 
     dynamodb = boto3.resource("dynamodb")
-    table_name = os.environ.get("ALARMS_TABLE_NAME")
+    table_name = os.environ.get("ALARMS_TABLE_NAME", "ALARMS")
     table = dynamodb.Table(table_name)
 
     receivers = table.scan()["Items"]
 
     for receiver in receivers:
-        msg["To"] = receiver
+        msg["To"] = receiver["PK"]
 
         # Send the email via Gmail's SMTP server, or use another server if not using Gmail
         with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
             server.login(SMTP_USER, SMTP_PASS)
-            server.sendmail(SMTP_USER, receiver, msg.as_string())
+            server.sendmail(SMTP_USER, receiver["PK"], msg.as_string())
+            
+            
+lambda_handler(None, None)

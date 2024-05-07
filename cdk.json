@@ -59,11 +59,25 @@
         },
         "functions": [
             {
-                "name": "HelloWorld",
-                "path": "./functions/hello_world",
-                "description": "A simple hello word",
+                "name": "Redirect",
+                "path": "./functions/redirect",
+                "description": "A function to redirect based on user pool id",
+                "method": "POST",
+                "endpoint": "/redirect/{pool_id}"
+            },
+            {
+                "name": "List",
+                "path": "./functions/pool/list",
+                "description": "List User Pool",
                 "method": "GET",
-                "endpoint": "/hello_world"
+                "endpoint": "/pool"
+            },
+            {
+                "name": "Create",
+                "path": "./functions/pool/create",
+                "description": "Create User Pool Id",
+                "method": "POST",
+                "endpoint": "/pool"
             }
         ]
     }

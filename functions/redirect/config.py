@@ -16,3 +16,4 @@ class RedirectConfig:
         services.api_gateway.create_endpoint("GET", "/redirect/{pool_id}", function, public=True)
 
         services.dynamo_db.add_query_permission(services.dynamo_db.pool_table, function)
+        services.dynamo_db.pool_table.grant_read_data(function)

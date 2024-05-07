@@ -10,6 +10,6 @@ class RedirectConfig:
             description="A function to redirect based on user pool id",
         )
 
-        services.api_gateway.create_endpoint("POST", "/redirect/{pool_id}", function, public=True)
+        services.api_gateway.create_endpoint("GET", "/redirect/{pool_id}", function, public=True)
 
         services.dynamo_db.add_query_permission(services.dynamo_db.pool_table, function)

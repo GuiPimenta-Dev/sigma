@@ -62,7 +62,7 @@
                 "name": "Redirect",
                 "path": "./functions/redirect",
                 "description": "A function to redirect based on user pool id",
-                "method": "POST",
+                "method": "GET",
                 "endpoint": "/redirect/{pool_id}"
             },
             {

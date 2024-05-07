@@ -1,3 +1,4 @@
+from functions.error.config import ErrorConfig
 from functions.alarm.config import AlarmConfig
 from aws_cdk import Stack
 from constructs import Construct
@@ -30,3 +31,6 @@ class LambdaStack(Stack):
 
         # Alarm
         AlarmConfig(self.services)
+
+        # Error
+        ErrorConfig(self.services)

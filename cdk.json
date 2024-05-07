@@ -83,6 +83,13 @@
                 "name": "Alarm",
                 "path": "./functions/alarm",
                 "description": "Send email notifications"
+            },
+            {
+                "name": "Error",
+                "path": "./functions/error",
+                "description": "A mock of an error",
+                "method": "GET",
+                "endpoint": "/error"
             }
         ]
     }

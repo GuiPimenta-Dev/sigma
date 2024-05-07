@@ -22,10 +22,7 @@ def lambda_handler(event, context):
 
     SMTP_USER = secret["email"]
     SMTP_PASS = secret["password"]
-
-    receiver = event["queryStringParameters"]["email"]
-
-
+    
     # Create the multipart email
     msg = MIMEMultipart()
     sender_name = "Sigma"
@@ -34,7 +31,7 @@ def lambda_handler(event, context):
     msg["From"] = f"{sender_name} <{SMTP_USER}>"
     msg["To"] = receiver
     msg["Subject"] = "Alarm Notification"
-
+    
     # Join the current directory with the filename to get the full path of the HTML file
     current_directory = os.path.dirname(os.path.abspath(__file__))
     html_path = os.path.join(current_directory, "template.html")
@@ -44,7 +41,15 @@ def lambda_handler(event, context):
     msg.attach(MIMEText(html, "html"))
 
 
-    # Send the email via Gmail's SMTP server, or use another server if not using Gmail
-    with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
-        server.login(SMTP_USER, SMTP_PASS)
-        server.sendmail(SMTP_USER, receiver, msg.as_string())
+    dynamodb = boto3.resource("dynamodb")
+    table_name = os.environ.get("ALARMS_TABLE_NAME")
+    table = dynamodb.Table(table_name)
+
+    receivers = table.scan()["Items"]
+
+    for receiver in receivers:
+        
+        # Send the email via Gmail's SMTP server, or use another server if not using Gmail
+        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
+            server.login(SMTP_USER, SMTP_PASS)
+            server.sendmail(SMTP_USER, receiver, msg.as_string())

@@ -8,6 +8,10 @@ class DynamoDB:
         self.pool_table = dynamo_db.Table.from_table_arn(
             scope, "PoolTable", "arn:aws:dynamodb:us-east-2:211125768252:table/Redirect"
         )
+        
+        self.alarms_table = dynamo_db.Table.from_table_arn(
+            scope, "AlarmsTable", "arn:aws:dynamodb:us-east-2:211125768252:table/Alarms"
+        )
 
     @staticmethod
     def add_query_permission(table, function):

@@ -14,6 +14,6 @@ class CreateConfig:
             },
         )
 
-        services.api_gateway.create_endpoint("GET", "/pool", function, public=True)
+        services.api_gateway.create_endpoint("POST", "/pool", function, public=True)
 
         services.dynamo_db.pool_table.grant_write_data(function)

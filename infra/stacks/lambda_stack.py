@@ -1,3 +1,5 @@
+from functions.user_pool.create.config import CreateConfig
+from functions.redirect.config import RedirectConfig
 from functions.hello_world.config import HelloWorldConfig
 from docs.config import DocsConfig
 from aws_cdk import Stack
@@ -17,5 +19,8 @@ class LambdaStack(Stack):
         # Docs
         DocsConfig(self.services)
 
-        # HelloWorld
-        HelloWorldConfig(self.services)
+        # Redirect
+        RedirectConfig(self.services)
+
+        # UserPool
+        CreateConfig(self.services)

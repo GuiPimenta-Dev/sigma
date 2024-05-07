@@ -47,12 +47,12 @@ class ProdStack(cdk.Stack):
         pipeline.add_stage(
             DeployStage(self, context),
             pre=[
-                unit_tests, 
+                unit_tests,
                 integration_tests,
             ],
             post=[
                 diagram,
                 redoc,
-                swagger, 
+                swagger,
             ],
         )

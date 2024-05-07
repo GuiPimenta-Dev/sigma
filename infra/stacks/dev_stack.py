@@ -1,4 +1,3 @@
-
 import aws_cdk as cdk
 from aws_cdk import pipelines as pipelines
 from aws_cdk.pipelines import CodePipelineSource
@@ -32,7 +31,7 @@ class DevStack(cdk.Stack):
             ),
             pipeline_name=f"{context.stage}-{context.name}-Pipeline",
         )
-        
+
         steps = Steps(self, context, source)
 
         # post

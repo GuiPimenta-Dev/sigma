@@ -1,11 +1,13 @@
-from functions.user_pool.create.config import CreateConfig
-from functions.redirect.config import RedirectConfig
-from functions.hello_world.config import HelloWorldConfig
-from docs.config import DocsConfig
 from aws_cdk import Stack
 from constructs import Construct
-from infra.services import Services
 from lambda_forge import release
+
+from docs.config import DocsConfig
+from functions.hello_world.config import HelloWorldConfig
+from functions.redirect.config import RedirectConfig
+from functions.user_pool.create.config import CreateConfig
+from functions.user_pool.list.config import ListConfig
+from infra.services import Services
 
 
 @release
@@ -23,4 +25,5 @@ class LambdaStack(Stack):
         RedirectConfig(self.services)
 
         # UserPool
+        ListConfig(self.services)
         CreateConfig(self.services)

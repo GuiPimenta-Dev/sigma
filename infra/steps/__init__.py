@@ -19,14 +19,14 @@ class Steps:
         ]
 
     def run_unit_tests(self):
-        
+
         report_group = {
             "name": "UnitTestsReport",
             "files": "test-results.xml",
             "file_format": "JUNITXML",
             "file_type": "test",
         }
-        
+
         return self.codebuild.create_step(
             name="UnitTests",
             commands=['pytest --junitxml=test-results.xml -k "unit.py"'],
@@ -34,7 +34,7 @@ class Steps:
         )
 
     def run_coverage(self):
-        
+
         report_group = {
             "name": "CoverageReport",
             "files": "coverage.xml",
@@ -53,14 +53,14 @@ class Steps:
         )
 
     def validate_docs(self):
-        
+
         return self.codebuild.create_step(
             name="ValidateDocs",
             commands=["cdk synth", "python validate_docs.py"],
         )
 
     def validate_integration_tests(self):
-        
+
         return self.codebuild.create_step(
             name="ValidateIntegrationTests",
             commands=[
@@ -72,7 +72,7 @@ class Steps:
         )
 
     def run_integration_tests(self):
-        
+
         report_group = {
             "name": "IntegrationTestsReport",
             "files": "test-results.xml",

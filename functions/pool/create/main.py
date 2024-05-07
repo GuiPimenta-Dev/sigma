@@ -36,4 +36,4 @@ def lambda_handler(event, context):
     for item in pool:
         table.put_item(Item={"PK": pool_id, "SK": item["domain"], "weight": item["weight"]})
 
-    return {"statusCode": 200, "body": json.dumps({"pool_id": pool_id})}
+    return {"statusCode": 200, "body": json.dumps({"pool_id": pool_id}, default=str)}

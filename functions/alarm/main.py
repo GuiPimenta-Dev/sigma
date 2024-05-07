@@ -1,9 +1,50 @@
-import json
+import os
+import smtplib
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+import boto3
+import sm_utils
 
 
 def lambda_handler(event, context):
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({"message": "Hello World!"})
-    }
+    # Fetch the SMTP details from the environment variables
+    SMTP_HOST = os.environ["SMTP_HOST"]
+    SMTP_PORT = os.environ["SMTP_PORT"]
+
+    # Get the secret name from env variable
+    SECRET_NAME = os.environ["SECRET_NAME"]
+
+    # Get the secret from sm_utils layer
+    secret = sm_utils.get_secret(SECRET_NAME)
+
+    SMTP_USER = secret["email"]
+    SMTP_PASS = secret["password"]
+
+    receiver = event["queryStringParameters"]["email"]
+
+
+    # Create the multipart email
+    msg = MIMEMultipart()
+    sender_name = "Sigma"
+
+    # Set the 'From' field, including both the name and the email:
+    msg["From"] = f"{sender_name} <{SMTP_USER}>"
+    msg["To"] = receiver
+    msg["Subject"] = "Alarm Notification"
+
+    # Join the current directory with the filename to get the full path of the HTML file
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    html_path = os.path.join(current_directory, "template.html")
+
+    # Read the HTML content
+    html = open(html_path).read().replace("{{ lambdaFunction }}", "test")
+    msg.attach(MIMEText(html, "html"))
+
+
+    # Send the email via Gmail's SMTP server, or use another server if not using Gmail
+    with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
+        server.login(SMTP_USER, SMTP_PASS)
+        server.sendmail(SMTP_USER, receiver, msg.as_string())

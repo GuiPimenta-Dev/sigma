@@ -78,6 +78,11 @@
                 "description": "Create User Pool Id",
                 "method": "POST",
                 "endpoint": "/pool"
+            },
+            {
+                "name": "Alarm",
+                "path": "./functions/alarm",
+                "description": "Send email notifications"
             }
         ]
     }

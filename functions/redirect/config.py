@@ -1,5 +1,6 @@
 from infra.services import Services
 
+
 class RedirectConfig:
     def __init__(self, services: Services) -> None:
 
@@ -7,9 +8,6 @@ class RedirectConfig:
             name="Redirect",
             path="./functions/redirect",
             description="A function to redirect based on user pool id",
-            
         )
 
-        services.api_gateway.create_endpoint("GET", "/redirect", function, public=True)
-
-            
+        services.api_gateway.create_endpoint("POST", "/redirect/{pool_id}", function, public=True)

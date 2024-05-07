@@ -41,7 +41,7 @@ To simulate an error and receive an email alert, execute the following command:
 
 ```bash
 curl --request GET \
-  --url 'https://gttrnql942.execute-api.us-east-2.amazonaws.com/dev/error?=&email=$EMAIL'
+  --url 'https://gttrnql942.execute-api.us-east-2.amazonaws.com/dev/error?email=$EMAIL'
 ```
 
 Replace `$EMAIL` with your email address.

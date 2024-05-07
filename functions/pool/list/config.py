@@ -15,3 +15,5 @@ class ListConfig:
         )
 
         services.api_gateway.create_endpoint("GET", "/pool", function, public=True)
+
+        services.dynamo_db.pool_table.grant_read_data(function)

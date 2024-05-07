@@ -1,6 +1,6 @@
-from infra.services.dynamo_db import DynamoDB
 from infra.services.api_gateway import APIGateway
 from infra.services.aws_lambda import AWSLambda
+from infra.services.dynamo_db import DynamoDB
 from infra.services.layers import Layers
 
 

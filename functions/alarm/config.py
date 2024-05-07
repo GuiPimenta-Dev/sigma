@@ -21,4 +21,4 @@ class AlarmConfig:
 
         services.secrets_manager.gmail_secret.grant_read(function)
 
-        services.dynamo_db.add_query_permission(services.dynamo_db.alarms_table, function)
+        services.dynamo_db.alarms_table.grant_read_data(function)

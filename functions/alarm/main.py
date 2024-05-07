@@ -47,6 +47,7 @@ def lambda_handler(event, context):
     receivers = table.scan()["Items"]
 
     for receiver in receivers:
+        msg["To"] = receiver
 
         # Send the email via Gmail's SMTP server, or use another server if not using Gmail
         with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:

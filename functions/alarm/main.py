@@ -1,6 +1,6 @@
+import json
 import os
 import smtplib
-from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -9,8 +9,7 @@ import sm_utils
 
 
 def lambda_handler(event, context):
-    print(event)
-
+    
     # Fetch the SMTP details from the environment variables
     SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.gmail.com")
     SMTP_PORT = os.environ.get("SMTP_PORT", "465")
@@ -37,7 +36,8 @@ def lambda_handler(event, context):
     html_path = os.path.join(current_directory, "template.html")
 
     # Read the HTML content
-    html = open(html_path).read().replace("{{ lambdaFunction }}", "test")
+    function_name = json.loads(event['Records'][0]['Sns']["Message"])["Trigger"]["Dimensions"][0]["value"]
+    html = open(html_path).read().replace("{{ lambdaFunction }}", function_name)
     msg.attach(MIMEText(html, "html"))
 
     dynamodb = boto3.resource("dynamodb")
@@ -55,4 +55,3 @@ def lambda_handler(event, context):
             server.sendmail(SMTP_USER, receiver["PK"], msg.as_string())
             
             
-lambda_handler(None, None)
